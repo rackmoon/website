@@ -3,9 +3,8 @@ import Final from '../components/Final.astro';
 import Detail from '../components/products/Detail.astro';
 import Grid from '../components/products/Grid.astro';
 import Hero from '../components/products/Hero.astro';
-import License from '../components/products/License.astro';
 import Layout from '../layouts/Layout.astro';
-import { copy, pathFor, type Lang } from '../i18n';
+import { copy, mailto, pathFor, type Lang } from '../i18n';
 
 interface Props {
   lang: Lang;
@@ -21,13 +20,12 @@ const c = copy[lang];
   {c.products.items.map((_, i) => (
     <Detail lang={lang} index={i} />
   ))}
-  <License lang={lang} />
   <Final
     h={c.home.final.h}
     p={c.home.final.p}
     ctas={[
       { label: c.contact, href: pathFor(lang, 'about', '#contact') },
-      { label: c.pricing, href: pathFor(lang, 'pricing') },
+      { label: c.about.contact.mailCta, href: mailto() },
     ]}
   />
 </Layout>

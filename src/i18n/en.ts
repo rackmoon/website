@@ -2,27 +2,21 @@
 const en = {
   lang: 'en',
   htmlLang: 'en',
-  nav: ['Products', 'Pricing', 'Changelog', 'About'],
+  nav: ['Products', 'Changelog', 'About'],
   otherLang: '中文',
   theme: 'Switch between dark and light',
   contact: 'Contact us',
   explore: 'Explore products',
-  pricing: 'See pricing',
   meta: {
     home: {
       title: 'RackMoon · Software for hosting and cloud providers',
       description:
-        'Billing, KVM and Hyper-V virtualization, Docker containers, game servers and monitoring for hosting and cloud providers. Self-hosted on your own servers.',
+        'Billing, KVM and Hyper-V virtualization, bare-metal servers, Docker containers, game servers and monitoring for hosting and cloud providers. Self-hosted on your own servers.',
     },
     products: {
       title: 'Products · RackMoon',
       description:
-        'Six self-hosted products for hosting businesses: Billing, KVM Manager, Hyper-V Manager, Containers, Game Servers and Monitoring.',
-    },
-    pricing: {
-      title: 'Pricing · RackMoon',
-      description:
-        'Every RackMoon product is a self-hosted license on its own. Prices will be announced before launch.',
+        'Seven self-hosted products for hosting businesses: Billing, KVM Manager, Hyper-V Manager, Containers, Game Servers, DCIM and Monitoring.',
     },
     changelog: {
       title: 'Changelog · RackMoon',
@@ -39,11 +33,11 @@ const en = {
     },
   },
   footer: {
-    desc: 'RackMoon builds software for hosting and cloud providers: billing, KVM and Hyper-V virtualization, Docker containers, game servers and monitoring, all running on your own servers.',
+    desc: 'RackMoon builds software for hosting and cloud providers: billing, KVM and Hyper-V virtualization, bare-metal servers, Docker containers, game servers and monitoring, all running on your own servers.',
     cols: [
       {
         h: 'Products',
-        items: ['Billing', 'KVM Manager', 'Hyper-V Manager', 'Containers', 'Game Servers', 'Monitoring'],
+        items: ['Billing', 'KVM Manager', 'Hyper-V Manager', 'Containers', 'Game Servers', 'DCIM', 'Monitoring'],
       },
       {
         h: 'Company',
@@ -51,7 +45,7 @@ const en = {
       },
       {
         h: 'Resources',
-        items: ['Pricing', 'Brand assets', 'GitHub'],
+        items: ['Brand assets', 'GitHub'],
       },
     ],
     copy: '© 2026 RackMoon · All rights reserved',
@@ -63,7 +57,7 @@ const en = {
     h1: ['Bill, provision', 'and support', 'everything you host.'],
     h1Hi: 2,
     lead: 'RackMoon is the business system for hosting and cloud providers. Seven ways to charge, pluggable provisioning, a supply network between providers and AI agents that act safely, all on your own servers.',
-    note: ['Self-hosted license', 'Your servers, your data'],
+    note: ['Self-hosted', 'Your servers, your data'],
     console: {
       crumb: 'Orders',
       search: 'Search orders and customers',
@@ -333,7 +327,7 @@ const en = {
     deploy: {
       k: 'Deployment & trust',
       h: 'Your rack. Your data. Your money.',
-      p: "RackMoon is licensed software that runs on your own servers. It never sits between you and your customers' money.",
+      p: "RackMoon is software that runs on your own servers. It never sits between you and your customers' money.",
       lanes: [
         {
           name: 'Service',
@@ -347,7 +341,7 @@ const en = {
       note: 'RackMoon never sits in the money lane.',
       trust: [
         {
-          title: 'Self-hosted license',
+          title: 'Self-hosted',
           text: 'Installed on servers you own or rent.',
         },
         {
@@ -368,25 +362,17 @@ const en = {
         },
       ],
     },
-    price: {
-      k: 'Pricing',
-      h: 'Self-hosted licenses',
-      p: 'Pricing will be announced before launch. Tell us about your business and we will reach out.',
-      cardK: 'License',
-      cardH: 'Coming soon',
-      cardItems: ['Licensed per product', 'Runs on your own servers', 'Prices announced before launch'],
-    },
     final: {
       h: 'From one rack to the moon.',
       p: 'See what RackMoon can do for your hosting business.',
     },
   },
   products: {
-    pill: 'Six products, one family',
+    pill: 'Seven products, one family',
     h1: ['Everything your', 'hosting business runs on.'],
     h1Hi: 1,
-    lead: 'Billing, KVM and Hyper-V virtualization, Docker containers, game servers and monitoring. Every product runs on your own servers under a self-hosted license, and each one works alone or together with the rest.',
-    note: ['Self-hosted license', 'Use one or all six'],
+    lead: 'Billing, KVM and Hyper-V virtualization, bare-metal servers, Docker containers, game servers and monitoring. Every product runs on your own servers, and each one works alone or together with the rest.',
+    note: ['Self-hosted', 'Use one or all seven'],
     core: 'Core',
     learn: 'Learn more',
     grid: {
@@ -472,6 +458,22 @@ const en = {
             'Web console and file manager',
             'Scheduled restarts and backups',
             'Billing by slots, memory or hours',
+          ],
+        },
+      },
+      {
+        key: 'dcim',
+        name: 'DCIM',
+        desc: 'Rent out bare-metal servers and colocation, with power, OS installs, switch ports and IPs automated.',
+        chips: ['IPMI power', 'PXE installs', 'Switch ports'],
+        detail: {
+          h: 'Sell your own hardware, rack by rack.',
+          p: 'Track every server, rack and IP. When an order is paid, Billing picks an available machine, installs its system and opens its switch port.',
+          items: [
+            'Server, rack and power inventory',
+            'IPMI power and remote console',
+            'PXE installs and rescue mode',
+            'Switch ports, bandwidth and 95th percentile',
           ],
         },
       },
@@ -748,6 +750,62 @@ const en = {
         prompt: 'say Restarting at 04:00 for updates',
         actions: ['Restart', 'Stop', 'Backup now'],
       },
+      dcim: {
+        title: 'Rack R12',
+        sub: '42U · 18 servers',
+        add: 'Add server',
+        feeds: [
+          {
+            k: 'Power A',
+            v: '3.1 kW',
+            pct: 62,
+          },
+          {
+            k: 'Power B',
+            v: '2.9 kW',
+            pct: 58,
+          },
+          {
+            k: 'Uplink 95th',
+            v: '6.8 Gbps',
+            pct: 34,
+          },
+        ],
+        rows: [
+          {
+            id: 'R12-U07',
+            model: 'Dell R640 · 128 GB',
+            port: '10 Gbps',
+            power: true,
+            state: 'ok',
+            status: 'Delivered',
+          },
+          {
+            id: 'R12-U09',
+            model: '2 × E5-2680 · 64 GB',
+            port: '1 Gbps',
+            power: false,
+            state: 'off',
+            status: 'In stock',
+          },
+          {
+            id: 'R12-U11',
+            model: 'EPYC 7543P · 256 GB',
+            port: '10 Gbps',
+            power: true,
+            state: 'warn',
+            status: 'Installing',
+          },
+          {
+            id: 'R12-U14',
+            model: 'Dell R740 · 192 GB',
+            port: '1 Gbps',
+            power: true,
+            state: 'ok',
+            status: 'Delivered',
+          },
+        ],
+      },
       monitor: {
         title: 'Overview',
         sub: 'Last 30 days',
@@ -771,95 +829,6 @@ const en = {
           },
         ],
       },
-    },
-    license: {
-      k: 'Licensing',
-      h: 'License only what you use.',
-      p: 'Each product is its own self-hosted license. Start with one, add the rest when you need them, and keep every byte of data on your servers. Pricing will be announced before launch.',
-      cardK: 'Self-hosted licenses',
-    },
-  },
-  pricingPage: {
-    pill: 'Self-hosted licenses',
-    h1: ['Simple licenses,', 'your own servers.'],
-    h1Hi: 1,
-    lead: 'Every RackMoon product is a self-hosted license on its own. Buy the ones you need, run them on your servers, and keep your customers, data and payments with you. Prices will be announced before launch.',
-    emailCta: 'Email us',
-    note: ['Licensed per product', 'Prices announced before launch'],
-    card: {
-      k: 'RackMoon license',
-      rows: [
-        {
-          k: 'Licensed to',
-          v: 'Your hosting company',
-        },
-        {
-          k: 'Runs on',
-          v: 'Your servers',
-        },
-        {
-          k: 'Key',
-          v: 'RMN-7Q4K-2HX9-PL3M',
-        },
-      ],
-      state: 'Active',
-    },
-    list: {
-      k: 'Price list',
-      h: 'One license per product.',
-      p: 'Start with one product and add more whenever you are ready. Each license works on its own.',
-      type: 'Self-hosted',
-      price: 'Announced before launch',
-      notify: 'Tell me first',
-      cols: ['Product', 'License', 'Price'],
-    },
-    includes: {
-      k: 'Every license',
-      h: 'What you can count on.',
-      items: [
-        {
-          title: 'Your servers, your data',
-          text: 'Install on servers you own or rent. Customers, invoices and logs stay in your own database.',
-        },
-        {
-          title: 'Payments go straight to you',
-          text: 'Customers pay through your own payment channels. RackMoon never holds customer funds.',
-        },
-        {
-          title: 'Works alone or together',
-          text: 'Each product runs by itself and plugs into the others when you add them.',
-        },
-        {
-          title: 'Terms published with prices',
-          text: 'Update and support terms will be announced together with prices.',
-        },
-      ],
-    },
-    faq: {
-      k: 'Questions',
-      h: 'Licensing, answered.',
-      items: [
-        {
-          q: 'When will prices be announced?',
-          a: 'Before launch. Write to hello@rackmoon.com and we will tell you first.',
-        },
-        {
-          q: 'Do I have to buy all six products?',
-          a: 'No. Each product is licensed on its own. Start with one and add the others when you need them.',
-        },
-        {
-          q: 'Where does RackMoon run?',
-          a: 'On your own servers. You install it, and all of its data stays in your database.',
-        },
-        {
-          q: "Does RackMoon hold my customers' payments?",
-          a: 'No. Customers pay you directly through your own payment channels.',
-        },
-        {
-          q: 'Can I move over from the system I use now?',
-          a: 'Yes. Billing can bring customers, products and invoices over from your current system.',
-        },
-      ],
     },
   },
   changelog: {
@@ -886,7 +855,7 @@ const en = {
     pill: 'About RackMoon',
     h1: ['Built for the people', 'who host the internet.'],
     h1Hi: 1,
-    lead: 'RackMoon makes self-hosted software for hosting and cloud providers: billing, virtualization, containers, game servers and monitoring. We believe providers should own their servers, their data and their customer relationships.',
+    lead: 'RackMoon makes self-hosted software for hosting and cloud providers: billing, virtualization, bare-metal servers, containers, game servers and monitoring. We believe providers should own their servers, their data and their customer relationships.',
     values: {
       k: 'What we believe',
       h: 'Three things we will not trade away.',
@@ -901,7 +870,7 @@ const en = {
         },
         {
           title: 'Products that fit together',
-          text: 'Use one product or all six. They speak the same language and plug into each other when you need them to.',
+          text: 'Use one product or all seven. They speak the same language and plug into each other when you need them to.',
         },
       ],
     },
@@ -914,8 +883,8 @@ const en = {
     contact: {
       k: 'Contact',
       h: 'Talk to a person.',
-      p: 'Questions about the products, licensing or a partnership? Write to us and a person will reply.',
-      mailK: 'Sales, licensing and general questions',
+      p: 'Questions about the products or a partnership? Write to us and a person will reply.',
+      mailK: 'Sales and general questions',
       mailCta: 'Send an email',
       cards: [
         {

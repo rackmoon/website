@@ -2,7 +2,7 @@ import en from './en';
 import zh from './zh';
 
 export type Lang = 'en' | 'zh';
-export type PageKey = 'home' | 'products' | 'pricing' | 'changelog' | 'about';
+export type PageKey = 'home' | 'products' | 'changelog' | 'about';
 
 export const copy = { en, zh };
 export const EMAIL = 'hello@rackmoon.com';
@@ -12,13 +12,12 @@ export const BRAND_KIT = '/brand/rackmoon-brand-kit.zip';
 const PATHS: Record<PageKey, string> = {
   home: '/',
   products: '/products/',
-  pricing: '/pricing/',
   changelog: '/changelog/',
   about: '/about/',
 };
 
 /** Pages in the order of the main navigation. */
-export const NAV: PageKey[] = ['products', 'pricing', 'changelog', 'about'];
+export const NAV: PageKey[] = ['products', 'changelog', 'about'];
 
 export function pathFor(lang: Lang, page: PageKey, hash = ''): string {
   return (lang === 'zh' ? '/zh' : '') + PATHS[page] + hash;

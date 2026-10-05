@@ -231,6 +231,45 @@ const label = lang === 'zh' ? `${name}界面示意` : `${name} interface preview
       </div>
     </>
   )}
+  {product === 'dcim' && (
+    <>
+      <div class="mk-top">
+        <b>{m.dcim.title}</b>
+        <span class="mk-sub">{m.dcim.sub}</span>
+        <span class="mini-btn">{m.dcim.add}</span>
+      </div>
+      <div class="mk-body">
+        <div class="dc-feeds">
+          {m.dcim.feeds.map((f) => (
+            <div class="dc-feed">
+              <span class="dc-k">
+                <b class="led ok" />
+                {f.k}
+              </span>
+              <b>{f.v}</b>
+              <div class="meter">
+                <i style={`width:${f.pct}%`} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="mk-table">
+          {m.dcim.rows.map((r) => (
+            <div class="mk-row mr-dcim">
+              <b class:list={['led', { ok: r.power }]} />
+              <span class="mono">{r.id}</span>
+              <span class="mk-p">{r.model}</span>
+              <span class="mk-num">{r.port}</span>
+              <span class={`st st-${r.state}`}>
+                <i />
+                {r.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  )}
   {product === 'monitor' && (
     <>
       <div class="mk-top">

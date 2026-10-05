@@ -1690,81 +1690,6 @@ html {
   line-height: 1.55;
   color: var(--muted);
 }
-.price {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
-  gap: 56px;
-  align-items: center;
-  overflow: hidden;
-  padding: 60px;
-  border-radius: 26px;
-  background: var(--panel);
-  box-shadow:
-    var(--hi),
-    0 0 0 1px var(--edge),
-    var(--shadow);
-}
-.price::before {
-  content: '';
-  position: absolute;
-  right: -10%;
-  top: -40%;
-  width: 70%;
-  height: 180%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, var(--glow-b), transparent 70%);
-  pointer-events: none;
-}
-.price > * {
-  position: relative;
-}
-.price-card {
-  padding: 30px;
-  border-radius: 18px;
-  background: var(--panel);
-  box-shadow:
-    var(--hi),
-    inset 0 0 0 1px var(--agent-edge),
-    0 20px 50px -30px var(--agent-glow);
-}
-.price-card b {
-  display: block;
-  margin-top: 14px;
-  font: 600 36px/1.1 var(--display);
-  letter-spacing: -0.025em;
-  color: var(--text);
-}
-.rm-zh .price-card b {
-  font-weight: 700;
-  letter-spacing: 0;
-}
-.price-card ul {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 22px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.price-card li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font: 500 13px/1.4 var(--mono);
-  color: var(--muted);
-}
-.rm-zh .price-card li {
-  font-family: var(--sans);
-}
-.price-card li::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 2px;
-  background: var(--hl);
-  opacity: 0.6;
-}
 .road {
   position: relative;
   display: grid;
@@ -2032,10 +1957,6 @@ html {
   .trust {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .price {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
-  }
   .ft-main {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2265,10 +2186,6 @@ html {
   }
   .trust {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .price {
-    padding: 28px;
-    border-radius: 22px;
   }
   .road {
     grid-template-columns: minmax(0, 1fr);

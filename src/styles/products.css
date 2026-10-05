@@ -148,6 +148,7 @@
   position: relative;
 }
 .pcard-core {
+  grid-column: 1 / -1;
   box-shadow:
     var(--hi),
     inset 0 0 0 1px var(--agent-edge),
@@ -814,6 +815,38 @@
     opacity: 0;
   }
 }
+.dc-feeds {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.dc-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 13px 14px;
+  border-radius: 11px;
+  background: var(--panel-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.dc-k {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.dc-feed > b {
+  font: 600 18px/1 var(--display);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  white-space: nowrap;
+}
+.mr-dcim {
+  grid-template-columns: 7px 62px minmax(0, 1fr) 62px 98px;
+}
 .mk-up {
   display: inline-flex;
   align-items: center;
@@ -919,60 +952,6 @@
 .mo-warn em {
   color: var(--warn);
 }
-.lic-card {
-  padding: 24px;
-  border-radius: 18px;
-  background: var(--panel);
-  box-shadow:
-    var(--hi),
-    inset 0 0 0 1px var(--agent-edge),
-    0 20px 50px -30px var(--agent-glow);
-}
-.lic {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.lic li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 48px;
-  padding: 0 14px 0 8px;
-  border-radius: 12px;
-  background: var(--panel-2);
-  box-shadow: inset 0 0 0 1px var(--line);
-}
-.lic .pc-ico {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-}
-.lic .pc-ico .pi {
-  width: 17px;
-  height: 17px;
-}
-.lic b {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-}
-.lic em {
-  margin-left: auto;
-  font: 500 10.5px/1 var(--mono);
-  font-style: normal;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--faint);
-  white-space: nowrap;
-}
-.rm-zh .lic em {
-  font: 500 11.5px/1 var(--sans);
-  letter-spacing: 0.02em;
-}
 @media (prefers-reduced-motion: reduce) {
   .spokes line,
   .caret {
@@ -1047,7 +1026,8 @@
   .mr-bill .mk-p,
   .kv-node:nth-child(3),
   .mr-kvm > :nth-child(3),
-  .mr-kvm > :nth-child(4) {
+  .mr-kvm > :nth-child(4),
+  .mr-dcim .mk-num {
     display: none;
   }
   .mr-bill {
@@ -1078,6 +1058,15 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+  }
+  .dc-feeds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .dc-feed:last-child {
+    grid-column: 1 / -1;
+  }
+  .mr-dcim {
+    grid-template-columns: 7px minmax(0, 1fr) auto;
   }
   .mo-strip {
     gap: 3px;

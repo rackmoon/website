@@ -16,8 +16,8 @@ const c = copy[lang];
 const p = c.products;
 
 // Satellites sit on a ring of radius 230 around the centre of a 560 x 560 box, starting at the top.
-const points = [-90, -30, 30, 90, 150, 210].map((deg) => {
-  const rad = (deg * Math.PI) / 180;
+const points = productKeys.map((_, i) => {
+  const rad = ((i * 360) / productKeys.length - 90) * (Math.PI / 180);
   return [280 + 230 * Math.cos(rad), 280 + 230 * Math.sin(rad)];
 });
 ---
@@ -33,8 +33,8 @@ const points = [-90, -30, 30, 90, 150, 210].map((deg) => {
       <Headline lines={p.h1} hi={p.h1Hi} />
       <p class="lead">{p.lead}</p>
       <div class="ctas">
-        <a class="btn btn-p" href={pathFor(lang, 'pricing')}>
-          {c.pricing}
+        <a class="btn btn-p" href="#products">
+          {c.explore}
           <span class="arr" aria-hidden="true">
             →
           </span>

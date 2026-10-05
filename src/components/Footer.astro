@@ -16,7 +16,7 @@ const f = copy[lang].footer;
 const hrefs = [
   productKeys.map((key) => pathFor(lang, 'products', `#${key}`)),
   [pathFor(lang, 'about'), pathFor(lang, 'about', '#contact'), pathFor(lang, 'changelog')],
-  [pathFor(lang, 'pricing'), BRAND_KIT, GITHUB],
+  [BRAND_KIT, GITHUB],
 ];
 const external = new Set([GITHUB]);
 ---
