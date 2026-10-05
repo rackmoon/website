@@ -1,0 +1,105 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '../styles/site.css';
+import '../styles/products.css';
+import '../styles/pages.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { EMAIL, copy, pathFor, rssPath, type Lang, type PageKey } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  /** Null on pages that exist in one language only, such as the 404 page. */
+  page: PageKey | null;
+  title: string;
+  description: string;
+}
+
+const { lang, page, title, description } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site).href;
+const alternates = page
+  ? [
+      { hreflang: 'en', href: new URL(pathFor('en', page), site).href },
+      { hreflang: 'zh-CN', href: new URL(pathFor('zh', page), site).href },
+      { hreflang: 'x-default', href: new URL(pathFor('en', page), site).href },
+    ]
+  : [];
+const image = new URL('/og-image.png', site).href;
+const organization =
+  page === 'home'
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'RackMoon',
+        url: site.href,
+        logo: new URL('/icon-512.png', site).href,
+        email: EMAIL,
+      })
+    : null;
+---
+
+<!doctype html>
+<html lang={copy[lang].htmlLang} class="t-dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => (
+      <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+    ))}
+    <link rel="alternate" type="application/rss+xml" title="RackMoon" href={rssPath(lang)} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0B1020" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RackMoon" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {organization && <script type="application/ld+json" set:html={organization} />}
+    <script is:inline>
+      // Apply a saved light theme before the first paint; dark is the default.
+      try {
+        if (localStorage.getItem('rm-theme') === 'light')
+          document.documentElement.classList.replace('t-dark', 't-light');
+      } catch {}
+    </script>
+  </head>
+  <body class={`rm rm-${lang}`}>
+    <Header lang={lang} page={page} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} page={page} />
+    <script>
+      const root = document.documentElement;
+      for (const button of document.querySelectorAll('[data-theme-toggle]')) {
+        button.addEventListener('click', () => {
+          const light = root.classList.contains('t-dark');
+          root.classList.toggle('t-dark', !light);
+          root.classList.toggle('t-light', light);
+          try {
+            localStorage.setItem('rm-theme', light ? 'light' : 'dark');
+          } catch {}
+        });
+      }
+    </script>
+  </body>
+</html>

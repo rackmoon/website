@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { NAV, copy, otherLang, pathFor, type Lang, type PageKey } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  /** Page shown, used for the active nav item and the language switch; null on the 404 page. */
+  page: PageKey | null;
+}
+
+const { lang, page } = Astro.props;
+const c = copy[lang];
+---
+
+<header class="hd">
+  <div class="wrap hd-in">
+    <a class="logo" href={pathFor(lang, 'home')}>
+      <Logo />
+    </a>
+    <nav class="nav" aria-label="Main">
+      {NAV.map((key, i) => (
+        <a href={pathFor(lang, key)} class:list={{ on: key === page }} aria-current={key === page ? 'page' : undefined}>
+          {c.nav[i]}
+        </a>
+      ))}
+    </nav>
+    <div class="hd-r">
+      <a
+        class="lang"
+        href={pathFor(otherLang(lang), page ?? 'home')}
+        hreflang={otherLang(lang) === 'zh' ? 'zh-CN' : 'en'}
+      >
+        {c.otherLang}
+      </a>
+      <button class="ico" type="button" aria-label={c.theme} data-theme-toggle>
+        <Icon name="sun" class="i i-sun" />
+        <Icon name="moon" class="i i-moon" />
+      </button>
+      <a class="btn btn-s btn-sm hide-m" href={pathFor(lang, 'about', '#contact')}>
+        {c.contact}
+      </a>
+      <a class="btn btn-p btn-sm" href={pathFor(lang, 'products')}>
+        {c.explore}
+      </a>
+    </div>
+  </div>
+</header>

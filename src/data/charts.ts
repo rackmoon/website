@@ -1,0 +1,36 @@
+/** Latency bars (0 to 100) for the monitoring preview. */
+export const latency = [34, 30, 28, 31, 36, 42, 40, 38, 35, 33, 37, 45, 52, 48, 41, 36, 33, 31, 30, 35, 72, 44, 36, 32];
+
+/** Daily uptime over the last 30 days for the monitoring preview. */
+export const uptime: ('ok' | 'warn' | 'down')[] = [
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'warn',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'down',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+  'ok',
+];

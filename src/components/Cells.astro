@@ -1,0 +1,21 @@
+---
+import type { Cell } from '../data/brand';
+
+interface Props {
+  cells: Cell[];
+  class: string;
+  /** Class names for lit and dim pixels, which pick their colors from the theme. */
+  lit: string;
+  dim: string;
+  label?: string;
+}
+
+const { cells, class: className, lit, dim, label } = Astro.props;
+const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' };
+---
+
+<svg class={className} viewBox="0 0 64 64" {...a11y}>
+  {cells.map(([x, y, s, r, on]) => (
+    <rect x={x} y={y} width={s} height={s} rx={r} class={on ? lit : dim} />
+  ))}
+</svg>

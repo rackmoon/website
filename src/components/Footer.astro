@@ -1,0 +1,72 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { productKeys } from '../data/products';
+import { BRAND_KIT, GITHUB, copy, otherLang, pathFor, rssPath, type Lang, type PageKey } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  page: PageKey | null;
+}
+
+const { lang, page } = Astro.props;
+const f = copy[lang].footer;
+
+// Links per column, in the same order as the labels in the copy.
+const hrefs = [
+  productKeys.map((key) => pathFor(lang, 'products', `#${key}`)),
+  [pathFor(lang, 'about'), pathFor(lang, 'about', '#contact'), pathFor(lang, 'changelog')],
+  [pathFor(lang, 'pricing'), BRAND_KIT, GITHUB],
+];
+const external = new Set([GITHUB]);
+---
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-main">
+      <div class="ft-brand">
+        <a class="logo" href={pathFor(lang, 'home')}>
+          <Logo />
+        </a>
+        <p>{f.desc}</p>
+      </div>
+      {f.cols.map((col, ci) => (
+        <div class="ft-col">
+          <p class="ft-h">{col.h}</p>
+          <ul>
+            {col.items.map((label, li) => {
+              const href = hrefs[ci][li];
+              return (
+                <li>
+                  {external.has(href) ? (
+                    <a href={href} target="_blank" rel="noopener">
+                      {label}
+                      <Icon name="ext" class="ext" stroke={2.4} />
+                    </a>
+                  ) : (
+                    <a href={href} download={href === BRAND_KIT ? '' : undefined}>
+                      {label}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="ft-bot">
+      <p>{f.copy}</p>
+      <p class="ft-util">
+        <a href={rssPath(lang)}>
+          <Icon name="rss" stroke={2} />
+          {f.rss}
+        </a>
+        <a href={pathFor(otherLang(lang), page ?? 'home')}>
+          <Icon name="globe" stroke={1.8} />
+          {f.lang}
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,12 @@
+---
+import { lockup, markCells } from '../data/brand';
+---
+
+<svg class="logo-svg" viewBox={lockup.viewBox} role="img" aria-label="RackMoon">
+  <g transform={lockup.markTransform}>
+    {markCells.map(([x, y, s, r, on]) => (
+      <rect x={x} y={y} width={s} height={s} rx={r} class={on ? 'lk-lit' : 'lk-dim'} />
+    ))}
+  </g>
+  <path class="lk-text" transform={lockup.wordTransform} d={lockup.wordPath}></path>
+</svg>

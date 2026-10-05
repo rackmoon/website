@@ -1,0 +1,15 @@
+---
+interface Props {
+  lines: string[];
+  /** Index of the line drawn with the highlight gradient. */
+  hi: number;
+}
+
+const { lines, hi } = Astro.props;
+---
+
+<h1>
+  {lines.map((line, i) => (
+    <span class:list={{ hi: i === hi }}>{line}</span>
+  ))}
+</h1>

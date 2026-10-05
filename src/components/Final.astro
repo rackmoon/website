@@ -1,0 +1,38 @@
+---
+import Cells from './Cells.astro';
+import { phaseCells } from '../data/brand';
+
+interface Props {
+  h: string;
+  p: string;
+  /** The first button is the primary one and carries the arrow. */
+  ctas: { label: string; href: string }[];
+}
+
+const { h, p, ctas } = Astro.props;
+const PHASES = ['-0.62', '-0.25', '0.12', '0.5', '1'];
+---
+
+<section class="final" id="contact">
+  <div class="wrap final-in">
+    <div class="phases-row" aria-hidden="true">
+      {PHASES.map((k) => (
+        <Cells cells={phaseCells[k]} class={k === '1' ? 'ph-lg ph-full' : 'ph-lg'} lit="ph-lit" dim="ph-dim" />
+      ))}
+    </div>
+    <h2>{h}</h2>
+    <p class="sub">{p}</p>
+    <div class="ctas">
+      {ctas.map((cta, i) => (
+        <a class={i === 0 ? 'btn btn-p' : 'btn btn-s'} href={cta.href}>
+          {cta.label}
+          {i === 0 && (
+            <span class="arr" aria-hidden="true">
+              →
+            </span>
+          )}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
