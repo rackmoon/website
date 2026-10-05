@@ -1,0 +1,48 @@
+---
+import Cells from '../Cells.astro';
+import Headline from '../Headline.astro';
+import Stars from '../Stars.astro';
+import { markCells } from '../../data/brand';
+import { copy, pathFor, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const h = c.home;
+---
+
+<section class="hero">
+  <Stars />
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <a class="pill" href={pathFor(lang, 'products')}>
+        <i></i>
+        {h.pill}
+      </a>
+      <Headline lines={h.h1} hi={h.h1Hi} />
+      <p class="lead">{h.lead}</p>
+      <div class="ctas">
+        <a class="btn btn-p" href={pathFor(lang, 'products')}>
+          {c.explore}{' '}
+          <span class="arr" aria-hidden="true">
+            →
+          </span>
+        </a>
+        <a class="btn btn-s" href={pathFor(lang, 'pricing')}>
+          {c.pricing}
+        </a>
+      </div>
+      <p class="note">{h.note.map((t, i) => (i ? [<i />, <span>{t}</span>] : <span>{t}</span>))}</p>
+    </div>
+    <div class="emblem" aria-hidden="true">
+      <span class="em-glow"></span>
+      <span class="em-orbit"></span>
+      <span class="em-orbit em-orbit-2"></span>
+      <span class="em-sat"></span>
+      <Cells cells={markCells} class="em-moon" lit="m-lit" dim="m-dim" />
+    </div>
+  </div>
+</section>

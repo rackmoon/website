@@ -1,0 +1,55 @@
+---
+import { copy, pathFor, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const r = copy[lang].home.rack;
+---
+
+<section class="sec" id="product">
+  <div class="wrap split">
+    <div class="sec-copy">
+      <p class="kicker">{r.k}</p>
+      <h2>{r.h}</h2>
+      <p class="sub">{r.p}</p>
+      <a class="link" href={pathFor(lang, 'products')}>
+        {r.link}{' '}
+        <span class="arr" aria-hidden="true">
+          →
+        </span>
+      </a>
+    </div>
+    <div class="rack">
+      <div class="rack-top">
+        <span>RACK · 07U</span>
+        <span class="leds">
+          <b class="led ok"></b>
+          <b class="led ok"></b>
+          <b class="led"></b>
+        </span>
+      </div>
+      {r.units.map((u, i) => (
+        <div class="unit">
+          <span class="ear" />
+          <span class="u-no">U{String(i + 1).padStart(2, '0')}</span>
+          <span class="u-name">{u.name}</span>
+          <span class="u-tags">
+            {u.tags.map((t) => (
+              <i>{t}</i>
+            ))}
+          </span>
+          <span class="vent" />
+          <span class="leds">
+            <b class="led ok" />
+            <b class:list={['led', { ok: i % 3 !== 0 }]} />
+          </span>
+          <span class="ear" />
+        </div>
+      ))}
+      <div class="rack-foot"></div>
+    </div>
+  </div>
+</section>

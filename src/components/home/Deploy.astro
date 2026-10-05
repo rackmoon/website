@@ -1,0 +1,49 @@
+---
+import SectionHead from '../SectionHead.astro';
+import { copy, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = copy[lang].home.deploy;
+// The node that runs RackMoon is drawn in moonlight, the provider's own wallet in green.
+const isOwn = (label: string) => label === 'You' || label === '你';
+---
+
+<section class="sec" id="deploy">
+  <div class="wrap">
+    <SectionHead kicker={d.k} title={d.h} sub={d.p} />
+    <div class="deploy">
+      <div class="map">
+        {d.lanes.map(({ name, nodes: [from, via, middle, then, to] }) => (
+          <div class="lane">
+            <span class="lane-k">{name}</span>
+            <span class="node">{from}</span>
+            <span class="lw">
+              <em>{via}</em>
+            </span>
+            <span class:list={['node', { 'node-you': middle.includes('RackMoon') }]}>{middle}</span>
+            <span class="lw">
+              <em>{then}</em>
+            </span>
+            <span class:list={['node', { 'node-own': isOwn(to) }]}>{to}</span>
+          </div>
+        ))}
+        <p class="map-note">{d.note}</p>
+      </div>
+      <ul class="trust">
+        {d.trust.map((t) => (
+          <li>
+            <span class="sq" />
+            <div>
+              <b>{t.title}</b>
+              <span>{t.text}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

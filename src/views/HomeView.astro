@@ -1,0 +1,41 @@
+---
+import Final from '../components/Final.astro';
+import Automation from '../components/home/Automation.astro';
+import Billing from '../components/home/Billing.astro';
+import Deploy from '../components/home/Deploy.astro';
+import Facts from '../components/home/Facts.astro';
+import Hero from '../components/home/Hero.astro';
+import Platform from '../components/home/Platform.astro';
+import PricingTeaser from '../components/home/PricingTeaser.astro';
+import Rack from '../components/home/Rack.astro';
+import Showcase from '../components/home/Showcase.astro';
+import Layout from '../layouts/Layout.astro';
+import { copy, pathFor, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+---
+
+<Layout lang={lang} page="home" title={c.meta.home.title} description={c.meta.home.description}>
+  <Hero lang={lang} />
+  <Showcase lang={lang} />
+  <Facts lang={lang} />
+  <Rack lang={lang} />
+  <Billing lang={lang} />
+  <Platform lang={lang} />
+  <Automation lang={lang} />
+  <Deploy lang={lang} />
+  <PricingTeaser lang={lang} />
+  <Final
+    h={c.home.final.h}
+    p={c.home.final.p}
+    ctas={[
+      { label: c.explore, href: pathFor(lang, 'products') },
+      { label: c.contact, href: pathFor(lang, 'about', '#contact') },
+    ]}
+  />
+</Layout>

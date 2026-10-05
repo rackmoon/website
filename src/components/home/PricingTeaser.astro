@@ -1,0 +1,43 @@
+---
+import { copy, pathFor, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const p = c.home.price;
+---
+
+<section class="sec sec-tight" id="pricing">
+  <div class="wrap">
+    <div class="price">
+      <div class="price-copy">
+        <p class="kicker">{p.k}</p>
+        <h2>{p.h}</h2>
+        <p class="sub">{p.p}</p>
+        <div class="ctas">
+          <a class="btn btn-p" href={pathFor(lang, 'about', '#contact')}>
+            {c.contact}{' '}
+            <span class="arr" aria-hidden="true">
+              →
+            </span>
+          </a>
+          <a class="btn btn-s" href={pathFor(lang, 'pricing')}>
+            {c.pricing}
+          </a>
+        </div>
+      </div>
+      <div class="price-card">
+        <span class="mono-l">{p.cardK}</span>
+        <b>{p.cardH}</b>
+        <ul>
+          {p.cardItems.map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

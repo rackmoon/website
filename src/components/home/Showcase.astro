@@ -1,0 +1,102 @@
+---
+import Cells from '../Cells.astro';
+import { markCells } from '../../data/brand';
+import { copy, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const h = copy[lang].home;
+const k = h.console;
+---
+
+<section class="showcase">
+  <div class="wrap">
+    <div class="shot">
+      <span class="shot-glow" aria-hidden="true"></span>
+      <div class="console" role="img" aria-label={k.tag}>
+        <div class="c-top">
+          <span class="c-brand">
+            <Cells cells={markCells} class="c-mark" lit="lk-lit" dim="lk-dim" />
+          </span>
+          <span class="c-crumb">{k.crumb}</span>
+          <span class="c-search">
+            {k.search}
+            <kbd>/</kbd>
+          </span>
+          <span class="c-tag">{k.tag}</span>
+          <span class="c-avatar"></span>
+        </div>
+        <div class="c-body">
+          <div class="c-side">
+            {k.side.map((t, i) => (
+              <span class:list={['c-nav', { on: i === 1 }]}>
+                <i></i>
+                {t}
+              </span>
+            ))}
+          </div>
+          <div class="c-main">
+            <div class="c-h">
+              <div>
+                <b>{k.today}</b>
+                <span class="c-sub">{k.todaySub}</span>
+              </div>
+              <div class="c-tools">
+                {k.filters.map((t, i) => (
+                  <span class:list={['c-chip', { on: i === 0 }]}>{t}</span>
+                ))}
+                <span class="mini-btn mini-p">{k.new}</span>
+              </div>
+            </div>
+            <div class="c-grid">
+              <div class="c-table">
+                <div class="c-row c-head">
+                  {k.head.map((t) => (
+                    <span>{t}</span>
+                  ))}
+                </div>
+                {k.rows.map((r) => (
+                  <div class="c-row">
+                    <span class="mono">{r.id}</span>
+                    <span class="c-cust">{r.customer}</span>
+                    <span class="c-prod">{r.product}</span>
+                    <span class="c-bill">{r.billing}</span>
+                    <span class={`st st-${r.state}`}>
+                      <i></i>
+                      {r.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div class="c-panel">
+                <p class="c-panel-h">{k.panelTitle}</p>
+                <div class="c-agent">
+                  <span class="c-agent-k">
+                    <i></i>
+                    {k.agentKicker}
+                  </span>
+                  <b>{k.agent}</b>
+                  <span class="c-agent-n">{k.agentNote}</span>
+                  <div class="c-agent-b">
+                    <span class="mini-btn mini-p">{k.approve}</span>
+                    <span class="mini-btn">{k.decline}</span>
+                  </div>
+                </div>
+                {k.log.map((l) => (
+                  <div class="c-log">
+                    <span>{l.k}</span>
+                    {l.v}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="shot-cap">{h.shotCap}</p>
+  </div>
+</section>

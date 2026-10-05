@@ -1,0 +1,96 @@
+---
+import SectionHead from '../SectionHead.astro';
+import { copy, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const b = copy[lang].home.billing;
+// Hourly billing is the model shown first.
+const SELECTED = 1;
+const total = String(b.models.length).padStart(2, '0');
+---
+
+<section class="sec sec-alt" id="billing">
+  <div class="wrap">
+    <SectionHead kicker={b.k} title={b.h} sub={b.p} />
+    <div class="bill" data-bill>
+      <div class="tabs" role="tablist" aria-label={b.k}>
+        {b.models.map((m, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`bill-tab-${i}`}
+            aria-controls={`bill-panel-${i}`}
+            aria-selected={i === SELECTED ? 'true' : 'false'}
+            tabindex={i === SELECTED ? 0 : -1}
+            class:list={['tab', { on: i === SELECTED }]}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
+      {b.models.map((m, i) => (
+        <div
+          class="bill-panel"
+          role="tabpanel"
+          id={`bill-panel-${i}`}
+          aria-labelledby={`bill-tab-${i}`}
+          hidden={i !== SELECTED}
+        >
+          <div class="bill-copy">
+            <p class="mono-l">
+              {String(i + 1).padStart(2, '0')} {b.of} {total}
+            </p>
+            <h3>{m.title}</h3>
+            <p>{m.desc}</p>
+          </div>
+          <div class="chart" aria-hidden="true">
+            <div class="chart-hd">
+              <span>{b.chart}</span>
+              <span class="chart-u">{m.unit}</span>
+            </div>
+            <div class="bars">
+              {m.bars.map((v) => (
+                <i class="bar" style={`height:${Math.max(v, 4)}%`} />
+              ))}
+            </div>
+            <div class="chart-ft">
+              <span>00:00</span>
+              <span>12:00</span>
+              <span>24:00</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  for (const bill of document.querySelectorAll<HTMLElement>('[data-bill]')) {
+    const tabs = [...bill.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...bill.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.classList.toggle('on', on);
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+      });
+      if (focus) tabs[index].focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (event) => {
+        const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        event.preventDefault();
+        select((i + step + tabs.length) % tabs.length, true);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,81 @@
+---
+import SectionHead from '../SectionHead.astro';
+import { copy, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const m = copy[lang].home.modules;
+const [supplier, you, customer] = m.supply.nodes;
+---
+
+<section class="sec" id="platform">
+  <div class="wrap">
+    <SectionHead kicker={m.k} title={m.h} sub={m.p} />
+    <div class="bento">
+      <article class="tile tile-a">
+        <h3>{m.prov.title}</h3>
+        <p>{m.prov.p}</p>
+        <div class="plugs">
+          {m.prov.items.map((t) => (
+            <div class="plug">
+              <i></i>
+              <span>{t}</span>
+              <em>{m.prov.planned}</em>
+            </div>
+          ))}
+        </div>
+      </article>
+      <article class="tile tile-b">
+        <h3>{m.supply.title}</h3>
+        <p>{m.supply.p}</p>
+        <div class="flow">
+          <span class="node">{supplier}</span>
+          <span class="wire"></span>
+          <span class="node node-you">{you}</span>
+          <span class="wire"></span>
+          <span class="node">{customer}</span>
+        </div>
+        <p class="tile-note">{m.supply.note}</p>
+      </article>
+      <article class="tile tile-c">
+        <h3>{m.agents.title}</h3>
+        <p>{m.agents.p}</p>
+        <div class="lvls">
+          {m.agents.levels.map((l, i) => (
+            <div class="lvl">
+              <span class="lvl-k">L{i + 1}</span>
+              <b>{l.k}</b>
+              <span>{l.d}</span>
+            </div>
+          ))}
+        </div>
+      </article>
+      <article class="tile tile-d">
+        <h3>{m.client.title}</h3>
+        <p>{m.client.p}</p>
+        <div class="chips">
+          {m.client.pays.map((t) => (
+            <span class="chip">{t}</span>
+          ))}
+        </div>
+        <p class="tile-note mono">{m.client.langs}</p>
+      </article>
+      <article class="tile tile-e">
+        <div>
+          <h3>{m.migrate.title}</h3>
+          <p>{m.migrate.p}</p>
+        </div>
+        <div class="mig">
+          {m.migrate.items.map((t) => (
+            <span class="chip">{t}</span>
+          ))}
+          <span class="wire"></span>
+          <span class="node node-you">RackMoon</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
