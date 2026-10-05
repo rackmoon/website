@@ -1,0 +1,46 @@
+---
+import Icon from '../Icon.astro';
+import SectionHead from '../SectionHead.astro';
+import type { ProductKey } from '../../data/products';
+import { copy, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const p = copy[lang].products;
+---
+
+<section class="sec sec-tight" id="products">
+  <div class="wrap">
+    <SectionHead kicker={p.grid.k} title={p.grid.h} sub={p.grid.p} />
+    <div class="pgrid">
+      {p.items.map((item, i) => (
+        <article class:list={['pcard', { 'pcard-core': i === 0 }]}>
+          <div class="pc-top">
+            <span class="pc-ico">
+              <Icon name={item.key as ProductKey} />
+            </span>
+            <span class="pc-u">
+              {i === 0 && <span class="pc-badge">{p.core}</span>}U{String(i + 1).padStart(2, '0')}
+            </span>
+          </div>
+          <h3>{item.name}</h3>
+          <p>{item.desc}</p>
+          <div class="chips">
+            {item.chips.map((t) => (
+              <span class="chip">{t}</span>
+            ))}
+          </div>
+          <a class="link" href={`#${item.key}`}>
+            {p.learn}
+            <span class="arr" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,70 @@
+---
+import Cells from '../Cells.astro';
+import Headline from '../Headline.astro';
+import Icon from '../Icon.astro';
+import Stars from '../Stars.astro';
+import { markCells } from '../../data/brand';
+import { productKeys } from '../../data/products';
+import { copy, pathFor, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const p = c.products;
+
+// Satellites sit on a ring of radius 230 around the centre of a 560 x 560 box, starting at the top.
+const points = [-90, -30, 30, 90, 150, 210].map((deg) => {
+  const rad = (deg * Math.PI) / 180;
+  return [280 + 230 * Math.cos(rad), 280 + 230 * Math.sin(rad)];
+});
+---
+
+<section class="hero">
+  <Stars />
+  <div class="wrap p-hero-grid">
+    <div class="hero-copy">
+      <a class="pill" href="#products">
+        <i></i>
+        {p.pill}
+      </a>
+      <Headline lines={p.h1} hi={p.h1Hi} />
+      <p class="lead">{p.lead}</p>
+      <div class="ctas">
+        <a class="btn btn-p" href={pathFor(lang, 'pricing')}>
+          {c.pricing}
+          <span class="arr" aria-hidden="true">
+            →
+          </span>
+        </a>
+        <a class="btn btn-s" href={pathFor(lang, 'about', '#contact')}>
+          {c.contact}
+        </a>
+      </div>
+      <p class="note">{p.note.map((t, i) => (i ? [<i />, <span>{t}</span>] : <span>{t}</span>))}</p>
+    </div>
+    <div class="orbit" aria-hidden="true">
+      <span class="em-glow"></span>
+      <span class="or-ring"></span>
+      <span class="or-ring or-ring-2"></span>
+      <svg class="spokes" viewBox="0 0 560 560">
+        {points.map(([x, y]) => (
+          <line x1="280" y1="280" x2={x.toFixed(1)} y2={y.toFixed(1)} />
+        ))}
+      </svg>
+      <span class="or-core"></span>
+      <Cells cells={markCells} class="or-moon" lit="m-lit" dim="m-dim" />
+      {points.map(([x, y], i) => (
+        <span
+          class:list={['sat', { 'sat-core': i === 0 }]}
+          style={`left:${(x / 5.6).toFixed(2)}%;top:${(y / 5.6).toFixed(2)}%`}
+        >
+          <Icon name={productKeys[i]} />
+          <b>{p.items[i].name}</b>
+        </span>
+      ))}
+    </div>
+  </div>
+</section>

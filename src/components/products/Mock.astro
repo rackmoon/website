@@ -1,0 +1,272 @@
+---
+import Icon from '../Icon.astro';
+import { latency, uptime } from '../../data/charts';
+import { copy, type Lang } from '../../i18n';
+import type { ProductKey } from '../../data/products';
+
+interface Props {
+  lang: Lang;
+  product: ProductKey;
+}
+
+const { lang, product } = Astro.props;
+const p = copy[lang].products;
+const m = p.mock;
+const name = p.items.find((item) => item.key === product)?.name ?? '';
+const label = lang === 'zh' ? `${name}界面示意` : `${name} interface preview`;
+---
+
+{/* Previews of each product's interface: decorative, so they read as one image to assistive tech. */}
+<div class="mk" role="img" aria-label={label}>
+  {product === 'billing' && (
+    <>
+      <div class="mk-top">
+        <b>{m.billing.title}</b>
+        <span class="mk-tabs">
+          {m.billing.tabs.map((t, i) => (
+            <span class:list={{ on: i === 0 }}>{t}</span>
+          ))}
+        </span>
+        <span class="mini-btn mini-p">{m.billing.new}</span>
+      </div>
+      <div class="mk-body">
+        <div class="mk-sum">
+          {m.billing.sum.map((s) => (
+            <div>
+              <span>{s.k}</span>
+              <b>{s.v}</b>
+            </div>
+          ))}
+        </div>
+        <div class="mk-table">
+          {m.billing.rows.map((r) => (
+            <div class="mk-row mr-bill">
+              <span class="mono">{r.id}</span>
+              <span class="mk-c">{r.customer}</span>
+              <span class="mk-p">{r.item}</span>
+              <span class="mk-num">{r.amount}</span>
+              <span class={`st st-${r.state}`}>
+                <i />
+                {r.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  )}
+  {product === 'kvm' && (
+    <>
+      <div class="mk-top">
+        <b>{m.kvm.title}</b>
+        <span class="mk-sub">{m.kvm.sub}</span>
+        <span class="mini-btn">{m.kvm.add}</span>
+      </div>
+      <div class="mk-body">
+        <div class="kv-nodes">
+          {m.kvm.nodes.map((n) => (
+            <div class="kv-node">
+              <div class="kv-h">
+                <b>{n.name}</b>
+                <span>{n.cores}</span>
+              </div>
+              {[
+                [m.kvm.cpu, n.cpu, n.hot],
+                [m.kvm.ram, n.ram, false],
+              ].map(([k, v, hot]) => (
+                <>
+                  <div class:list={['meter-l', { hot }]}>
+                    <span>{k}</span>
+                    <span>{v}%</span>
+                  </div>
+                  <div class="meter">
+                    <i class:list={{ hot }} style={`width:${v}%`} />
+                  </div>
+                </>
+              ))}
+              <span class="kv-vms">{n.vms}</span>
+            </div>
+          ))}
+        </div>
+        <div class="mk-table">
+          {m.kvm.rows.map((r) => (
+            <div class="mk-row mr-kvm">
+              <span class="mono">{r.id}</span>
+              <span class="mk-p">{r.spec}</span>
+              <span class="mono">{r.ip}</span>
+              <span class="mono">{r.node}</span>
+              <span class={`st st-${r.state}`}>
+                <i />
+                {r.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  )}
+  {product === 'hyperv' && (
+    <>
+      <div class="mk-top">
+        <b>{m.hyperv.title}</b>
+        <span class="st st-ok">
+          <i />
+          {m.hyperv.state}
+        </span>
+        <span class="mk-sub">{m.hyperv.host}</span>
+      </div>
+      <div class="mk-body">
+        <div class="hv-os">
+          <span class="hv-ico">
+            <Icon name="hyperv" />
+          </span>
+          <div>
+            <b>{m.hyperv.os}</b>
+            <span>{m.hyperv.osSub}</span>
+          </div>
+        </div>
+        <div class="hv-specs">
+          {m.hyperv.specs.map((s) => (
+            <div>
+              <span>{s.k}</span>
+              <b class:list={{ ip: s.v.includes('.') }}>{s.v}</b>
+            </div>
+          ))}
+        </div>
+        <div>
+          <p class="mk-h">{m.hyperv.checkpointsTitle}</p>
+          <div class="hv-tl">
+            {m.hyperv.checkpoints.map((cp, i) => (
+              <div class:list={['hv-c', { on: i === 0 }]}>
+                <i />
+                <b>{cp.name}</b>
+                <span>{cp.when}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="mk-act">
+          {m.hyperv.actions.map((t, i) => (
+            <span class:list={['mini-btn', { 'mini-p': i === 0 }]}>{t}</span>
+          ))}
+        </div>
+      </div>
+    </>
+  )}
+  {product === 'containers' && (
+    <>
+      <div class="mk-top">
+        <b>{m.containers.title}</b>
+        <span class="mk-sub">{m.containers.sub}</span>
+      </div>
+      <div class="mk-body ct">
+        <div class="ct-grid">
+          {m.containers.images.map((im, i) => (
+            <div class:list={['ct-img', { on: i === m.containers.pick }]}>
+              <span class="ct-l">{im.name[0]}</span>
+              <b>{im.name}</b>
+              <span>{im.tag}</span>
+            </div>
+          ))}
+        </div>
+        <div class="ct-dep">
+          <p class="mk-h">{m.containers.deployTitle}</p>
+          {m.containers.fields.map((f) => (
+            <div class="ct-f">
+              <span>{f.k}</span>
+              <b>{f.v}</b>
+            </div>
+          ))}
+          <span class="mini-btn mini-p">{m.containers.go}</span>
+          <p class="ct-done">
+            <i />
+            {m.containers.done}
+          </p>
+        </div>
+      </div>
+    </>
+  )}
+  {product === 'games' && (
+    <>
+      <div class="mk-top">
+        <b>{m.games.title}</b>
+        <span class="st st-ok">
+          <i />
+          {m.games.state}
+        </span>
+        <span class="mk-sub">{m.games.sub}</span>
+      </div>
+      <div class="mk-body">
+        <div class="gm-stats">
+          {m.games.stats.map((s) => (
+            <div>
+              <div class="gm-k">
+                <span>{s.k}</span>
+                <b>{s.v}</b>
+              </div>
+              <div class="meter">
+                <i style={`width:${s.pct}%`} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="gm-con">
+          {m.games.log.map((l) => (
+            <p>
+              <span>{l.time}</span>
+              {l.text}
+            </p>
+          ))}
+          <p class="gm-in">
+            <b>&gt;</b>
+            {m.games.prompt}
+            <i class="caret" />
+          </p>
+        </div>
+        <div class="mk-act">
+          {m.games.actions.map((t, i) => (
+            <span class:list={['mini-btn', { 'mini-p': i === 0 }]}>{t}</span>
+          ))}
+        </div>
+      </div>
+    </>
+  )}
+  {product === 'monitor' && (
+    <>
+      <div class="mk-top">
+        <b>{m.monitor.title}</b>
+        <span class="mk-sub">{m.monitor.sub}</span>
+        <span class="mk-up">{m.monitor.up}</span>
+      </div>
+      <div class="mk-body">
+        <div class="mo-strip">
+          {uptime.map((day) => (
+            <i class={day} />
+          ))}
+        </div>
+        <div class="chart mo-chart">
+          <div class="chart-hd">
+            <span>{m.monitor.chart}</span>
+            <span class="chart-u">{m.monitor.unit}</span>
+          </div>
+          <div class="bars">
+            {latency.map((v) => (
+              <i class="bar" style={`height:${v}%`} />
+            ))}
+          </div>
+        </div>
+        {m.monitor.alerts.map((a) => (
+          <div class:list={['mo-a', { 'mo-warn': a.state === 'warn' }]}>
+            <span class="mono">{a.time}</span>
+            <span class="mo-dot" />
+            <p>
+              <b>{a.target}</b>
+              {a.text}
+            </p>
+            <em>{a.result}</em>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+</div>

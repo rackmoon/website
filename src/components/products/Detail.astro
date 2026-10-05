@@ -1,0 +1,41 @@
+---
+import Mock from './Mock.astro';
+import { copy, pathFor, type Lang } from '../../i18n';
+import type { ProductKey } from '../../data/products';
+
+interface Props {
+  lang: Lang;
+  index: number;
+}
+
+const { lang, index } = Astro.props;
+const c = copy[lang];
+const item = c.products.items[index];
+const odd = index % 2 === 1;
+---
+
+<section class:list={['sec', 'pd', { 'sec-alt': odd }]} id={item.key}>
+  <div class:list={['wrap', 'split', { 'split-r': odd }]}>
+    <div class="sec-copy">
+      <p class="kicker">
+        U{String(index + 1).padStart(2, '0')} · {item.name}
+      </p>
+      <h2>{item.detail.h}</h2>
+      <p class="sub">{item.detail.p}</p>
+      <ul class="pd-list">
+        {item.detail.items.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+      <a class="link" href={pathFor(lang, 'about', '#contact')}>
+        {c.contact}
+        <span class="arr" aria-hidden="true">
+          →
+        </span>
+      </a>
+    </div>
+    <div class="pd-shot">
+      <Mock lang={lang} product={item.key as ProductKey} />
+    </div>
+  </div>
+</section>
