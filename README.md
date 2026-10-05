@@ -31,12 +31,12 @@ Add releases to `src/data/changelog.ts`, newest first, with English and Chinese 
 
 ## Deploy
 
-Every push to `main` builds the site with GitHub Actions. To publish it, switch GitHub Pages on once under Settings → Pages, choose GitHub Actions as the source and set the custom domain to `www.rackmoon.com`. From then on each push deploys automatically.
+The site runs on Cloudflare Workers as static assets, with no Worker script, on `www.rackmoon.com` and `rackmoon.com`. Deploy from a machine where the [`cf` CLI](https://developers.cloudflare.com/) is installed and logged in to the Cloudflare account:
 
-DNS records for the domain:
+```bash
+npm run deploy
+```
 
-| Type    | Name  | Value                                                                                      |
-| ------- | ----- | ------------------------------------------------------------------------------------------ |
-| `CNAME` | `www` | `rackmoon.github.io`                                                                       |
-| `A`     | `@`   | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`                 |
-| `AAAA`  | `@`   | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+That builds the site, packs `dist/` into the Build Output layout under `.cloudflare/output` with `scripts/cloudflare-output.mjs`, and uploads it with `cf deploy --prebuilt`. The Worker name, custom domains and asset handling live in that script. Response headers for the static files are set in `public/_headers`.
+
+GitHub Actions only checks that the site builds; it does not deploy.
