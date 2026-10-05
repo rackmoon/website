@@ -1,0 +1,144 @@
+---
+import Cells from '../components/Cells.astro';
+import Headline from '../components/Headline.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Stars from '../components/Stars.astro';
+import { markCells, phaseCells } from '../data/brand';
+import Layout from '../layouts/Layout.astro';
+import { BRAND_KIT, EMAIL, copy, mailto, pathFor, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const ab = c.about;
+const phases = ab.name.phases;
+const PHASES = ['-0.62', '-0.25', '0.12', '0.5', '1'];
+const cardLinks = [
+  { href: BRAND_KIT, download: true },
+  { href: pathFor(lang, 'changelog'), download: false },
+];
+---
+
+<Layout lang={lang} page="about" title={c.meta.about.title} description={c.meta.about.description}>
+  <section class="hero">
+    <Stars />
+    <div class="wrap p-hero-grid">
+      <div class="hero-copy">
+        <span class="pill">
+          <i></i>
+          {ab.pill}
+        </span>
+        <Headline lines={ab.h1} hi={ab.h1Hi} />
+        <p class="lead">{ab.lead}</p>
+        <div class="ctas">
+          <a class="btn btn-p" href={pathFor(lang, 'products')}>
+            {c.explore}
+            <span class="arr" aria-hidden="true">
+              →
+            </span>
+          </a>
+          <a class="btn btn-s" href="#contact">
+            {c.contact}
+          </a>
+        </div>
+      </div>
+      <div class="journey" aria-hidden="true">
+        <span class="em-glow"></span>
+        <span class="jr-ring"></span>
+        <svg class="jr-path" viewBox="0 0 540 490">
+          <path d="M119 290 C 124 180, 210 118, 318 170"></path>
+        </svg>
+        <Cells cells={markCells} class="jr-moon" lit="m-lit" dim="m-dim" />
+        <div class="jr-rack">
+          {[0, 1, 2, 3].map((i) => (
+            <div class="jr-u">
+              <span />
+              <b class="led ok" />
+              <b class:list={['led', { ok: i % 2 === 1 }]} />
+            </div>
+          ))}
+        </div>
+        <span class="jr-sat" style="left:176px;top:178px"></span>
+        <span class="jr-tag" style="left:16px;top:252px">
+          {phases[0]}
+        </span>
+        <span class="jr-tag" style="right:30px;top:290px">
+          {phases[phases.length - 1]}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec-tight">
+    <div class="wrap">
+      <SectionHead kicker={ab.values.k} title={ab.values.h} />
+      <div class="vals">
+        {ab.values.items.map((item, i) => (
+          <article class="val">
+            <span class="val-n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec-tight sec-alt">
+    <div class="wrap split">
+      <div class="sec-copy">
+        <p class="kicker">{ab.name.k}</p>
+        <h2>{ab.name.h}</h2>
+        <p class="sub">{ab.name.p}</p>
+      </div>
+      <div class="ab-phases">
+        {PHASES.map((k, i) => (
+          <div class="ab-ph">
+            <Cells cells={phaseCells[k]} class={k === '1' ? 'ph-lg ph-full' : 'ph-lg'} lit="ph-lit" dim="ph-dim" />
+            <span>{phases[i]}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="wrap">
+      <SectionHead kicker={ab.contact.k} title={ab.contact.h} sub={ab.contact.p} />
+      <div class="cx-grid">
+        <div class="cx-mail">
+          <Cells cells={markCells} class="cx-moon" lit="m-lit" dim="m-dim" />
+          <div>
+            <span class="mono-l">{ab.contact.mailK}</span>
+            <b>{EMAIL}</b>
+          </div>
+          <div class="ctas">
+            <a class="btn btn-p" href={mailto()}>
+              {ab.contact.mailCta}
+              <span class="arr" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </div>
+        </div>
+        <div class="cx-side">
+          {ab.contact.cards.map((card, i) => (
+            <div class="cx-card">
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+              <a class="link" href={cardLinks[i].href} download={cardLinks[i].download ? '' : undefined}>
+                {card.cta}
+                <span class="arr" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

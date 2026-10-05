@@ -1,0 +1,50 @@
+---
+import Cells from '../Cells.astro';
+import Icon from '../Icon.astro';
+import { markCells } from '../../data/brand';
+import type { ProductKey } from '../../data/products';
+import { copy, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+  product: ProductKey;
+  class: string;
+}
+
+const { lang, product, class: className } = Astro.props;
+const c = copy[lang];
+const card = c.pricingPage.card;
+const name = c.products.items.find((item) => item.key === product)?.name;
+// Lit (1) and dim (0) squares along the bottom of the card, like a key printed in pixels.
+const STRIP = [1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1];
+---
+
+<div class:list={['lk', className]}>
+  <div class="lk-top">
+    <Cells cells={markCells} class="c-mark" lit="lk-lit" dim="lk-dim" />
+    <span class="mono-l">{card.k}</span>
+    <span class="st st-ok">
+      <i></i>
+      {card.state}
+    </span>
+  </div>
+  <div class="lk-prod">
+    <span class="pc-ico">
+      <Icon name={product} />
+    </span>
+    <b>{name}</b>
+  </div>
+  <dl class="lk-rows">
+    {card.rows.map((row, i) => (
+      <div>
+        <dt>{row.k}</dt>
+        <dd class:list={{ key: i === 2 }}>{row.v}</dd>
+      </div>
+    ))}
+  </dl>
+  <div class="lk-strip">
+    {STRIP.map((on) => (
+      <i class:list={{ d: !on }} />
+    ))}
+  </div>
+</div>

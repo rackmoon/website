@@ -1,0 +1,125 @@
+---
+import Headline from '../components/Headline.astro';
+import Icon from '../components/Icon.astro';
+import Stars from '../components/Stars.astro';
+import { releaseId, releases } from '../data/changelog';
+import { productKeys } from '../data/products';
+import Layout from '../layouts/Layout.astro';
+import { copy, mailto, rssPath, type Lang } from '../i18n';
+import { formatDate } from '../i18n/dates';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const cl = c.changelog;
+const names = Object.fromEntries(c.products.items.map((item) => [item.key, item.name]));
+const hasSamples = releases.some((r) => r.sample);
+---
+
+<Layout lang={lang} page="changelog" title={c.meta.changelog.title} description={c.meta.changelog.description}>
+  <section class="cl-hero">
+    <Stars />
+    <div class="wrap cl-hero-in">
+      <div>
+        <p class="kicker">{cl.k}</p>
+        <Headline lines={cl.h1} hi={cl.h1Hi} />
+        <p class="lead">{cl.lead}</p>
+      </div>
+      <a class="btn btn-s" href={rssPath(lang)}>
+        <Icon name="rss" class="" stroke={2} />
+        {cl.rss}
+      </a>
+    </div>
+  </section>
+
+  <section class="cl">
+    <div class="wrap">
+      <div class="cl-bar">
+        <div class="cl-chips" role="group" aria-label={cl.all}>
+          <button type="button" class="c-chip on" data-filter="all" aria-pressed="true">
+            {cl.all}
+          </button>
+          {productKeys.map((key) => (
+            <button type="button" class="c-chip" data-filter={key} aria-pressed="false">
+              <Icon name={key} />
+              {names[key]}
+            </button>
+          ))}
+        </div>
+        {hasSamples && <span class="c-tag">{cl.sample}</span>}
+      </div>
+      <div class="cl-list" data-releases>
+        {releases.map((release) => {
+          const text = release[lang];
+          return (
+            <article class="cl-e" id={releaseId(release)} data-product={release.product}>
+              <div class="cl-when">
+                <time class="mono" datetime={release.date}>
+                  {formatDate(release.date, lang)}
+                </time>
+                <span class="cl-ver">{release.version}</span>
+              </div>
+              <span class="cl-dot" />
+              <div class="cl-card">
+                <div class="cl-prod">
+                  <span class="pc-ico">
+                    <Icon name={release.product} />
+                  </span>
+                  {names[release.product]}
+                </div>
+                <h3>{text.title}</h3>
+                <p>{text.summary}</p>
+                <ul class="cl-ch">
+                  {text.changes.map((change) => (
+                    <li>
+                      <span class={`ty ty-${change.type}`}>{cl.types[change.type]}</span>
+                      {change.text}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="cl-sub-sec">
+    <div class="wrap">
+      <div class="cl-sub">
+        <div>
+          <h2>{cl.sub.h}</h2>
+          <p class="sub">{cl.sub.p}</p>
+        </div>
+        <div class="ctas">
+          <a class="btn btn-p" href={rssPath(lang)}>
+            <Icon name="rss" class="" stroke={2} />
+            {cl.rss}
+          </a>
+          <a class="btn btn-s" href={mailto(lang === 'zh' ? '订阅版本更新' : 'Release notes')}>
+            {cl.sub.email}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const entries = [...document.querySelectorAll<HTMLElement>('[data-releases] [data-product]')];
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      const key = chip.dataset.filter;
+      for (const other of chips) {
+        other.classList.toggle('on', other === chip);
+        other.setAttribute('aria-pressed', String(other === chip));
+      }
+      for (const entry of entries) entry.hidden = key !== 'all' && entry.dataset.product !== key;
+    });
+  }
+</script>

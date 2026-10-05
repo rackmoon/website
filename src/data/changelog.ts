@@ -241,3 +241,8 @@ export const releases: Release[] = [
     },
   },
 ];
+
+/** Anchor of a release on the changelog page. */
+export function releaseId(release: Release): string {
+  return `${release.product}-${release.version.replaceAll('.', '-')}`;
+}
