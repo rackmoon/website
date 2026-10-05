@@ -53,7 +53,7 @@ const organization =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {page ? <link rel="canonical" href={canonical} /> : <meta name="robots" content="noindex" />}
     {alternates.map((a) => (
       <link rel="alternate" hreflang={a.hreflang} href={a.href} />
     ))}

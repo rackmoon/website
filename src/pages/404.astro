@@ -1,0 +1,35 @@
+---
+import Cells from '../components/Cells.astro';
+import { markCells } from '../data/brand';
+import Layout from '../layouts/Layout.astro';
+import { copy, pathFor } from '../i18n';
+
+// GitHub Pages serves this one page for every missing URL, so it speaks both languages.
+const { en, zh } = copy;
+---
+
+<Layout lang="en" page={null} title={en.meta.notFound.title} description={en.meta.notFound.description}>
+  <section class="nf">
+    <div class="wrap nf-in">
+      <Cells cells={markCells} class="nf-moon" lit="m-lit" dim="m-dim" />
+      <p class="kicker">{en.notFound.k}</p>
+      <h1>{en.notFound.h}</h1>
+      <p class="sub">{en.notFound.p}</p>
+      <p class="nf-zh" lang="zh-CN">
+        {zh.notFound.h}
+        {zh.notFound.p}
+      </p>
+      <div class="ctas">
+        <a class="btn btn-p" href={pathFor('en', 'home')}>
+          {en.notFound.home}
+          <span class="arr" aria-hidden="true">
+            →
+          </span>
+        </a>
+        <a class="btn btn-s" href={pathFor('zh', 'home')} lang="zh-CN">
+          {zh.notFound.home}
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
